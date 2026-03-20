@@ -1,0 +1,38 @@
+version: "1"
+
+services:
+  # The Nakama Game Server Web Service
+  - type: web
+    name: nakama-server
+    env: docker
+    region: ohio # Change to 'frankfurt' or 'singapore' based on location
+    # Pulls the official Nakama image natively 
+    image: heroiclabs/nakama:3.21.1
+    dockerCommand: "/nakama/nakama --config /nakama/data/local.yml --database.address postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME} --logger.level DEBUG --session.token_expiry_sec 7200 --metrics.prometheus_port 9100"
+    envVars:
+      - key: DB_USER
+        fromDatabase:
+          name: nakama-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: nakama-db
+          property: password
+      - key: DB_HOST
+        fromDatabase:
+          name: nakama-db
+          property: host
+      - key: DB_NAME
+        fromDatabase:
+          name: nakama-db
+          property: database
+    # How much RAM you want allocated (Free tier requires 512)
+    plan: free
+
+databases:
+  # The essential PostgreSQL Database Nakama requires to store player data
+  - name: nakama-db
+    databaseName: nakama
+    user: root
+    region: ohio
+    plan: free
