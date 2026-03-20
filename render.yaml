@@ -4,10 +4,11 @@ services:
   # The Nakama Game Server Web Service
   - type: web
     name: nakama-server
-    env: docker
+    env: image
     region: ohio # Change to 'frankfurt' or 'singapore' based on location
     # Pulls the official Nakama image natively 
-    image: heroiclabs/nakama:3.21.1
+    image: 
+      url: docker.io/heroiclabs/nakama:3.21.1
     dockerCommand: "/nakama/nakama --config /nakama/data/local.yml --database.address postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME} --logger.level DEBUG --session.token_expiry_sec 7200 --metrics.prometheus_port 9100"
     envVars:
       - key: DB_USER
