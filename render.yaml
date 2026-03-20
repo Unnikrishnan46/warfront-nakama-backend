@@ -9,7 +9,7 @@ services:
     # Pulls the official Nakama image natively 
     image: 
       url: docker.io/heroiclabs/nakama:3.21.1
-    dockerCommand: sh -c "/nakama/nakama migrate up --database.address postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME} && exec /nakama/nakama --database.address postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME} --logger.level DEBUG --session.token_expiry_sec 7200 --metrics.prometheus_port 9100"
+    dockerCommand: "/nakama/nakama --database.address postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME} --logger.level DEBUG --session.token_expiry_sec 7200 --metrics.prometheus_port 9100"
     envVars:
       - key: DB_USER
         fromDatabase:
